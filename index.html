@@ -315,25 +315,6 @@
   .client-badge small{display:block;font-family:-apple-system,sans-serif;font-size:11px;color:var(--ink-soft);letter-spacing:0.2px;}
   @media (max-width:900px){.client-grid{grid-template-columns:repeat(2,1fr);}}
 
-  /* ===== TESTIMONIAL / TRUST NOTE ===== */
-  .trust-note{background:var(--cream);}
-  .tn-card{
-    background:#fff;border:1px solid var(--line);padding:48px;
-    display:grid;grid-template-columns:1fr 1fr;gap:48px;align-items:center;
-  }
-  .tn-card blockquote{
-    font-family:Georgia,serif;font-style:italic;font-size:21px;color:var(--navy-950);
-    margin:0 0 18px;line-height:1.5;
-  }
-  .tn-card cite{font-style:normal;font-size:13.5px;color:var(--ink-soft);}
-  .tn-side{border-left:1px solid var(--line);padding-left:48px;}
-  .tn-side h4{font-size:15px;color:var(--navy-950);margin-bottom:10px;}
-  .tn-side p{font-size:14px;color:var(--ink-soft);}
-  @media (max-width:900px){
-    .tn-card{grid-template-columns:1fr;padding:34px;}
-    .tn-side{border-left:none;border-top:1px solid var(--line);padding-left:0;padding-top:28px;}
-  }
-
   /* ===== CONTACT ===== */
   /* Tighter than other sections: this is where every CTA on the page points,
      so the whole heading + form should clear a normal viewport without an
@@ -373,6 +354,8 @@
   form.contact-form .btn-accent{width:100%;justify-content:center;margin-top:6px;}
   form.contact-form .btn-accent:disabled{opacity:.6;cursor:not-allowed;}
   .form-note{font-size:12px;color:#7d8ba3;margin-top:14px;text-align:center;}
+  .form-note a{color:var(--accent-400);}
+  .form-note a:hover{color:var(--accent-300);}
 
   /* visually hidden honeypot — present in the DOM/tab order removed, invisible to sighted users */
   .hp-field{display:none;}
@@ -405,8 +388,7 @@
     border-radius:2px;
   }
   /* dark-on-light sections need a darker ring to stay visible */
-  .about a:focus-visible,.approach a:focus-visible,.clients a:focus-visible,
-  .trust-note a:focus-visible{outline-color:var(--accent-ink);}
+  .about a:focus-visible,.approach a:focus-visible,.clients a:focus-visible{outline-color:var(--accent-ink);}
 
   /* ===== REDUCED MOTION ===== */
   @media (prefers-reduced-motion:reduce){
@@ -442,6 +424,27 @@
   @media (max-width:600px){
     .whatsapp-fab{right:16px;bottom:16px;width:54px;height:54px;}
     .whatsapp-fab svg{width:29px;height:29px;}
+  }
+
+  /* ===== SPACING RESTORE (tall/wide screens) =====
+     Placed last on purpose: several rules below (section, .section-head)
+     share exact specificity with base rules declared earlier in this file,
+     and CSS resolves same-specificity ties by source order, not by which
+     one sits inside a media query. This block must stay the last thing in
+     the stylesheet or its overrides can silently lose that tie-break. */
+  @media (min-height:850px) and (min-width:960px){
+    .nav{padding:18px 32px;}
+    .hero{padding:110px 0 100px;}
+    .hero h1{font-size:clamp(34px,4.4vw,54px);line-height:1.15;margin:18px 0 22px;}
+    .hero p.lead{font-size:18px;margin-bottom:36px;}
+    .hero-actions{margin-bottom:48px;}
+    .hero-stats{padding-top:28px;}
+    .hero-panel{padding:36px 34px;}
+    .hero-panel h3{font-size:19px;margin-bottom:18px;}
+    .hero-panel ul{margin-bottom:26px;}
+    .hero-panel li{padding:12px 0;}
+    section{padding:96px 0;scroll-margin-top:100px;}
+    .section-head{margin-bottom:56px;}
   }
 </style>
 </head>
@@ -627,20 +630,9 @@
   </div>
 </section>
 
-<section class="trust-note">
-  <div class="wrap">
-    <div class="tn-card reveal">
-      <div>
-        <blockquote>"We assist companies maximize business performance — with a focus on implementation, engagement, and results."</blockquote>
-        <cite>— Biz Excel Consulting, Engagement Philosophy</cite>
-      </div>
-      <div class="tn-side">
-        <h4>Have a client story to share?</h4>
-        <p>This space is reserved for a direct quote from one of your engagements. Swap in a named client testimonial here once you have one on file — it's the single highest-impact addition you can make to this page.</p>
-      </div>
-    </div>
-  </div>
-</section>
+<!-- Testimonial section removed until a real, named client quote is available.
+     An empty/self-quoted testimonial block undermines trust more than having
+     none — see this section's placeholder markup in git history if reviving it. -->
 
 <section class="contact" id="contact">
   <div class="wrap">
@@ -709,7 +701,7 @@
 
         <button type="submit" class="btn btn-accent" id="leadSubmit">Send Enquiry</button>
         <div class="form-status" id="formStatus" role="status" aria-live="polite"></div>
-        <p class="form-note">Submissions route to awadhi.bizexcel@gmail.com. This form requires a backend or form service (e.g. Formspree) to actually deliver mail — see note in code comments.</p>
+        <p class="form-note">Prefer email? Reach us directly at <a href="mailto:awadhi.bizexcel@gmail.com">awadhi.bizexcel@gmail.com</a>.</p>
       </form>
     </div>
   </div>
@@ -755,12 +747,20 @@
   window.addEventListener('resize', revealCheck);
 
   /*
-    Contact form is front-end only. To make it actually send email without a
-    custom backend, wire the <form> action to a service such as Formspree,
-    Getform, or Basin, e.g.:
+    No backend is configured yet, so this form submits via a mailto: link —
+    it opens the visitor's own email client with the message pre-filled and
+    addressed to awadhi.bizexcel@gmail.com. That's a real send, just routed
+    through their mail app instead of a server, so nothing here claims a
+    delivery it can't back up.
+
+    To upgrade to a proper backend (recommended — mailto depends on the
+    visitor having a configured desktop mail client, which many mobile and
+    webmail users don't), wire the <form> action to a service such as
+    Formspree, Getform, or Basin, e.g.:
       <form action="https://formspree.io/f/{your-id}" method="POST">
-    then delete the fetch-simulation block below and let the browser submit
-    natively (or POST via fetch and swap the status message on the real response).
+    then delete the mailto-construction block below and let the browser
+    submit natively (or POST via fetch and swap the status message on the
+    real response).
   */
   (function(){
     const form = document.getElementById('leadForm');
@@ -796,16 +796,28 @@
         return;
       }
 
-      submitBtn.disabled = true;
-      submitBtn.textContent = 'Sending…';
+      const subject = 'Website enquiry from ' + form.fname.value + (form.company.value ? ' (' + form.company.value + ')' : '');
+      const bodyLines = [
+        'Name: ' + form.fname.value,
+        form.company.value ? 'Company: ' + form.company.value : '',
+        'Email: ' + form.email.value,
+        form.phone.value ? 'Phone: ' + form.phone.value : ''
+      ].filter(Boolean);
+      bodyLines.push('', form.message.value || '(No message provided)');
+      const mailto = 'mailto:awadhi.bizexcel@gmail.com'
+        + '?subject=' + encodeURIComponent(subject)
+        + '&body=' + encodeURIComponent(bodyLines.join('\n'));
 
-      // Simulated send — replace with a real fetch() to Formspree/Getform/Basin.
+      submitBtn.disabled = true;
+      submitBtn.textContent = 'Opening email…';
+      window.location.href = mailto;
+
       setTimeout(function(){
         submitBtn.disabled = false;
         submitBtn.textContent = 'Send Enquiry';
-        status.textContent = 'This form isn\'t connected to an email service yet — nothing was actually sent. See the code comment above for how to wire it up.';
-        status.className = 'form-status is-error';
-      }, 500);
+        status.textContent = 'Your email app should now be open with this message ready to send. No email app on this device? Reach us directly at awadhi.bizexcel@gmail.com.';
+        status.className = 'form-status is-success';
+      }, 400);
     });
   })();
 </script>
