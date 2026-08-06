@@ -115,7 +115,10 @@
   }
   .nav ul a:hover{color:var(--accent-400);}
   .nav-cta{display:flex;align-items:center;gap:20px;}
-  .menu-toggle{display:none;background:none;border:none;color:#fff;font-size:26px;cursor:pointer;}
+  .menu-toggle{
+    display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;
+    width:44px;height:44px;align-items:center;justify-content:center;margin:-8px -10px -8px 0;
+  }
 
   @media (max-width:900px){
     .nav ul{
@@ -130,7 +133,7 @@
     .nav ul li{width:100%;}
     .nav ul a{display:block;padding:16px 32px;border-top:1px solid rgba(255,255,255,0.06);}
     .nav-cta .btn-accent{display:none;}
-    .menu-toggle{display:block;}
+    .menu-toggle{display:flex;}
   }
 
   /* ===== HERO ===== */
@@ -328,7 +331,7 @@
   .contact-info .office{margin-bottom:30px;}
   .contact-info h4{font-size:12.5px;letter-spacing:2px;text-transform:uppercase;color:var(--accent-400);margin-bottom:12px;}
   .contact-info p{color:#c3cede;font-size:15px;margin:0 0 4px;}
-  .contact-info a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.3);}
+  .contact-info a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.3);display:inline-block;padding:5px 0;margin:-5px 0;}
   .contact-info a:hover{border-color:var(--accent-400);color:var(--accent-300);}
   .assoc{margin-top:36px;padding-top:26px;border-top:1px solid rgba(255,255,255,0.12);}
   .assoc h4{font-size:12.5px;letter-spacing:2px;text-transform:uppercase;color:var(--accent-400);margin-bottom:12px;}
@@ -371,7 +374,7 @@
   .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
   .foot-row .logo .name{font-size:17px;}
   footer p{color:#7d8ba3;font-size:13px;margin:0;}
-  footer nav a{color:#a8b4c6;text-decoration:none;font-size:13px;margin-left:22px;}
+  footer nav a{color:#a8b4c6;text-decoration:none;font-size:13px;display:inline-block;padding:10px 0;margin:-10px 0 -10px 22px;}
   footer nav a:hover{color:var(--accent-400);}
 
   /* generic reveal */
