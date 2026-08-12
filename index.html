@@ -5,7 +5,7 @@
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Biz Excel Consulting | Your Business Transformation Partner in Bahrain</title>
 <meta name="description" content="Biz Excel Consulting is a Bahrain-based business transformation, pricing, customer experience and strategy consultancy serving leading organizations across the GCC.">
-<meta name="theme-color" content="#0a1628">
+<meta name="theme-color" content="#0a0a0c">
 <link rel="canonical" href="https://www.bizexcel.biz/">
 
 <!-- Link previews (WhatsApp / LinkedIn / X). Absolute URLs are required by these
@@ -24,25 +24,217 @@
 <meta name="twitter:description" content="Bahrain-based consultants in business transformation, pricing, customer experience, strategy and performance management.">
 <meta name="twitter:image" content="https://www.bizexcel.biz/og-image.png">
 
-<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230a1628'/%3E%3Ctext x='50%25' y='50%25' dy='.35em' text-anchor='middle' font-family='Georgia,serif' font-size='30' font-weight='bold' fill='%235b9bd4'%3EBE%3C/text%3E%3C/svg%3E">
+<link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230a0a0c'/%3E%3Ctext x='50%25' y='50%25' dy='.35em' text-anchor='middle' font-family='Georgia,serif' font-size='30' font-weight='bold' fill='%234a9be0'%3EBE%3C/text%3E%3C/svg%3E">
 
-<script>document.documentElement.className='js';</script>
+<script>
+  /* Runs before first paint so a saved preset never flashes the default
+     palette first. Keep this inline and in <head> — deferring it moves the
+     swap after paint and reintroduces the flash. */
+  document.documentElement.className='js';
+  try{
+    var saved=localStorage.getItem('be-theme');
+    if(saved) document.documentElement.setAttribute('data-theme',saved);
+  }catch(e){/* private mode: fall through to the default preset */}
+</script>
 <style>
+  /* ===== PALETTE =====
+     Three presets the client can flip between using the swatch switcher at
+     bottom-left. Everything themable lives in a custom property redefined
+     per [data-theme] — no rule further down hard-codes a surface or brand
+     colour, so a fourth preset is one more block here and nothing else.
+
+     --brand-* is the primary. #0f56a0 is the exact ink sampled from the
+     "Excel" wordmark on the business card; #1565c8 is that same hue lifted
+     just enough that the CTA still reads as a distinct shape against a
+     black header (3.5:1, WCAG 1.4.11 wants 3:1) while carrying white label
+     text at 5.6:1. --accent-* are the lighter steps for text sitting ON
+     dark surfaces, where the true ink is far too dark to read. */
   :root{
+    --brand-500:#1565c8;    /* primary fill — CTA buttons */
+    --brand-hover:#1a6ed0;  /* hover goes lighter; darker would fall under 3:1 on black */
+    --brand-fg:#ffffff;     /* label colour on --brand-500 */
+    --accent-500:#4a9be0;   /* blue on dark surfaces — service numbers, rules */
+    --accent-400:#79b4ea;   /* small text on dark */
+    --accent-300:#aed3f5;   /* lightest — hero emphasis, link hover */
+    --accent-ink:#0f56a0;   /* the true logo ink — text on cream/white */
+    /* Text sitting ON dark surfaces, in four weights. These carry a slight
+       blue cast by default, which suits the navy presets; the monochrome
+       preset swaps them for true neutrals, which is the whole reason they
+       are variables rather than literals in the rules below. */
+    --on-dark-max:#ffffff;
+    --on-dark-title:#fdfcf9;
+    --on-dark-strong:#d3dae5;
+    --on-dark:#a8b4c6;
+    --on-dark-soft:#93a2b8;
+    --text-muted:#7d8ba3;   /* faintest text on dark; presets with a lighter
+                               surface have to lift this or it drops under AA */
+
+    /* Hairlines, panel fills and field fills drawn ON the dark surface. They
+       are white at low alpha by default, which is invisible once a preset
+       makes that surface white — hence the tokens. Four weights, lightest
+       first. */
+    --rule-1:rgba(255,255,255,0.08);
+    --rule-2:rgba(255,255,255,0.13);
+    --rule-3:rgba(255,255,255,0.20);
+    --rule-4:rgba(255,255,255,0.35);
+    --panel-bg:rgba(255,255,255,0.045);
+    --field-bg:rgba(255,255,255,0.06);
+    --grid-line:rgba(255,255,255,0.035);
+
+    --cream:#f7f4ee;        /* the alternating light section (approach, body) */
+    --surface-alt:#ffffff;  /* the other light section (about, clients) */
+    --card-bg:#ffffff;      /* cards sitting on a light section */
+    --heading-ink:var(--navy-950);  /* headings on light sections; follows the
+                                       dark surface colour unless overridden */
+    --ink:#1b2430;
+    --ink-soft:#4a5568;
+    --line:#e6e1d6;
+    --ok:#7bd9a5;
+    --err:#e0796b;
+    --radius:2px;
+    --maxw:1180px;
+  }
+
+  /* Preset 1 — BLACK (default): black header and dark sections, logo blue primary. */
+  :root,
+  :root[data-theme="black"]{
+    --navy-950:#0a0a0c;
+    --navy-900:#121216;
+    --navy-800:#1c1c22;
+    --navy-700:#26262d;
+    --header-bg:rgba(8,8,10,0.97);
+    --hero-glow:rgba(21,101,200,0.20);
+    --meta-theme:#0a0a0c;
+  }
+
+  /* Preset 2 — NAVY: the original navy surfaces, kept, with the logo blue primary. */
+  :root[data-theme="navy"]{
     --navy-950:#0a1628;
     --navy-900:#0e1e36;
     --navy-800:#132a4a;
     --navy-700:#1b3a63;
-    --accent-500:#5b9bd4;   /* brand blue, sampled from the logo */
-    --accent-400:#74aada;   /* lighter — for text on navy */
-    --accent-300:#a8cbe8;   /* lightest — hero emphasis on navy */
-    --accent-ink:#2c6faa;   /* same hue, darkened for AA contrast on white/cream */
-    --cream:#f7f4ee;
-    --ink:#1b2430;
-    --ink-soft:#4a5568;
-    --line:#e6e1d6;
-    --radius:2px;
-    --maxw:1180px;
+    --header-bg:rgba(10,22,40,0.97);
+    --hero-glow:rgba(21,101,200,0.18);
+    --meta-theme:#0a1628;
+  }
+
+  /* Preset 3 — MONOCHROME: pure black and pure white, logo blue the only
+     colour on the page. Stricter than preset 1 in two ways — the darks are
+     true #000 instead of a lifted near-black, and the light sections drop
+     the warm cream for plain white, so nothing carries a hue except the
+     brand. The greys are true neutrals here for the same reason; the default
+     set leans blue, which reads as a tint against black and white. */
+  :root[data-theme="mono"]{
+    --navy-950:#000000;
+    --navy-900:#0d0d0d;
+    --navy-800:#1a1a1a;
+    --navy-700:#262626;
+    --header-bg:rgba(0,0,0,0.97);
+    --hero-glow:rgba(21,101,200,0.18);
+    --meta-theme:#000000;
+    --on-dark-title:#ffffff;
+    --on-dark-strong:#dcdcdc;
+    --on-dark:#b4b4b4;
+    --on-dark-soft:#9a9a9a;
+    --text-muted:#8c8c8c;
+    --cream:#ffffff;        /* no cream — the light sections go pure white */
+    --ink:#141414;
+    --ink-soft:#4a4a4a;
+    --line:#e3e3e3;         /* neutral rule, not the warm cream line */
+    /* --brand-* and --accent-* inherit from :root: the logo blue, untouched. */
+  }
+
+  /* Preset 4 — LIGHT: the inverse. The sections that were dark go white and
+     everything that sat on them flips to dark ink; the logo blue is the only
+     colour left. Two details that make it hold together:
+
+       · The page alternates dark/light section by section, and if the dark
+         family simply turned white the whole page would be one flat sheet.
+         So the two light families swap roles — the former dark sections are
+         pure white, the former light ones are the faint grey below, and the
+         rhythm survives.
+       · --accent-400/500 exist to be legible ON a dark surface, so they are
+         light blues. Here that surface is white, so all three collapse onto
+         the logo ink; --accent-300, which is a *lighter* emphasis step on
+         dark, has to become a *darker* one. */
+  :root[data-theme="light"]{
+    --navy-950:#ffffff;     /* header, hero, services, contact, footer */
+    --navy-900:#ffffff;     /* results strip — white, between two grey ones */
+    --navy-800:#f2f4f7;     /* service-card hover */
+    --navy-700:#e8ebef;
+    --header-bg:rgba(255,255,255,0.97);
+    --hero-glow:rgba(21,101,200,0.09);
+    --meta-theme:#ffffff;
+
+    --on-dark-max:#101317;
+    --on-dark-title:#101317;
+    --on-dark-strong:#2a3038;
+    --on-dark:#454c56;
+    --on-dark-soft:#59606b;
+    --text-muted:#646b76;
+
+    --rule-1:rgba(0,0,0,0.09);
+    --rule-2:rgba(0,0,0,0.13);
+    --rule-3:rgba(0,0,0,0.22);
+    --rule-4:rgba(0,0,0,0.30);
+    --panel-bg:rgba(0,0,0,0.022);
+    --field-bg:rgba(0,0,0,0.03);
+    --grid-line:rgba(0,0,0,0.035);
+
+    /* A lighter blue than the printed ink. #1565c8 is as light as small text
+       can go and still clear AA on the grey sections (4.94:1) — #1a6ed0 gets
+       4.40 there, which is why the lighter step is reserved for button fills
+       below, where the surface is the blue itself. */
+    --brand-500:#1a6ed0;
+    --brand-hover:#1f74d8;  /* still 4.62:1 under white; #2278e0 would not be */
+    --accent-500:#1565c8;
+    --accent-400:#1565c8;
+    --accent-300:#0f56a0;   /* the deeper step — emphasis goes darker on white */
+    --accent-ink:#1565c8;
+
+    --cream:#eef0f4;        /* the alternating section, now the darker of the two */
+    --surface-alt:#eef0f4;
+    --card-bg:#ffffff;
+    --heading-ink:#101317;
+    --ink:#191d22;
+    --ink-soft:#4a515b;
+    --line:#dfe3e8;
+    --ok:#127a45;           /* the on-dark greens/reds are far too pale on white */
+    --err:#b02a1c;
+  }
+
+  /* ...but the header stays black — the single dark band on an otherwise
+     white page. Custom properties inherit, so redefining the on-dark tokens
+     on <header> re-darkens exactly that subtree and nothing else in the
+     preset needs to know. --navy-950 is in here because the mobile nav
+     drawer draws its background from it and lives inside the header. */
+  :root[data-theme="light"] header{
+    --navy-950:#0a0a0c;
+    --header-bg:rgba(8,8,10,0.97);
+    --on-dark-max:#ffffff;
+    --on-dark-strong:#d9e1ec;
+    --on-dark-soft:#9aa5b4;
+    --accent-400:#5aa3ec;   /* "Excel" in the wordmark, and nav hover */
+    --rule-1:rgba(255,255,255,0.08);
+  }
+
+  /* Preset 5 — ORIGINAL: the site exactly as it looked before this change,
+     kept so the client can flip back and compare rather than describe. */
+  :root[data-theme="original"]{
+    --navy-950:#0a1628;
+    --navy-900:#0e1e36;
+    --navy-800:#132a4a;
+    --navy-700:#1b3a63;
+    --header-bg:rgba(10,22,40,0.97);
+    --hero-glow:rgba(91,155,212,0.16);
+    --meta-theme:#0a1628;
+    --brand-500:#5b9bd4;
+    --brand-hover:#74aada;
+    --brand-fg:var(--navy-950);
+    --accent-500:#5b9bd4;
+    --accent-400:#74aada;
+    --accent-300:#a8cbe8;
+    --accent-ink:#2c6faa;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -84,39 +276,39 @@
     cursor:pointer;
     transition:all .2s ease;
   }
-  .btn-accent{background:var(--accent-500);color:var(--navy-950);}
-  .btn-accent:hover{background:var(--accent-400);}
-  .btn-outline{border-color:rgba(255,255,255,0.35);color:#fff;}
-  .btn-outline:hover{background:rgba(255,255,255,0.08);border-color:#fff;}
+  .btn-accent{background:var(--brand-500);color:var(--brand-fg);}
+  .btn-accent:hover{background:var(--brand-hover);}
+  .btn-outline{border-color:var(--rule-4);color:var(--on-dark-max);}
+  .btn-outline:hover{background:var(--rule-1);border-color:var(--on-dark-max);}
   .btn-outline-dark{border-color:var(--navy-800);color:var(--navy-900);}
   .btn-outline-dark:hover{background:var(--navy-900);color:#fff;}
 
   /* ===== HEADER ===== */
   header{
     position:sticky;top:0;z-index:100;
-    background:rgba(10,22,40,0.97);
+    background:var(--header-bg);
     backdrop-filter:blur(6px);
-    border-bottom:1px solid rgba(255,255,255,0.08);
+    border-bottom:1px solid var(--rule-1);
   }
   .nav{
     display:flex;align-items:center;justify-content:space-between;
     padding:12px 32px;max-width:var(--maxw);margin:0 auto;
   }
   .logo{
-    display:flex;flex-direction:column;line-height:1.1;color:#fff;text-decoration:none;
+    display:flex;flex-direction:column;line-height:1.1;color:var(--on-dark-max);text-decoration:none;
   }
   .logo .name{font-family:Georgia,serif;font-size:22px;letter-spacing:0.5px;}
   .logo .name b{color:var(--accent-400);font-weight:600;}
-  .logo .tag{font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:#8fa2bd;margin-top:3px;}
+  .logo .tag{font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--on-dark-soft);margin-top:3px;}
   .nav ul{list-style:none;display:flex;gap:34px;margin:0;padding:0;}
   .nav ul a{
-    color:#d9e1ec;text-decoration:none;font-size:14px;font-weight:500;letter-spacing:0.3px;
+    color:var(--on-dark-strong);text-decoration:none;font-size:14px;font-weight:500;letter-spacing:0.3px;
     transition:color .2s;
   }
   .nav ul a:hover{color:var(--accent-400);}
   .nav-cta{display:flex;align-items:center;gap:20px;}
   .menu-toggle{
-    display:none;background:none;border:none;color:#fff;font-size:24px;cursor:pointer;
+    display:none;background:none;border:none;color:var(--on-dark-max);font-size:24px;cursor:pointer;
     width:44px;height:44px;align-items:center;justify-content:center;margin:-8px -10px -8px 0;
   }
 
@@ -127,11 +319,11 @@
       flex-direction:column;gap:0;
       max-height:0;overflow:hidden;
       transition:max-height .3s ease;
-      border-bottom:1px solid rgba(255,255,255,0.08);
+      border-bottom:1px solid var(--rule-1);
     }
     .nav ul.open{max-height:400px;}
     .nav ul li{width:100%;}
-    .nav ul a{display:block;padding:16px 32px;border-top:1px solid rgba(255,255,255,0.06);}
+    .nav ul a{display:block;padding:16px 32px;border-top:1px solid var(--rule-1);}
     .nav-cta .btn-accent{display:none;}
     .menu-toggle{display:flex;}
   }
@@ -140,63 +332,67 @@
   .hero{
     position:relative;
     background:
-      radial-gradient(ellipse at top right, rgba(91,155,212,0.16), transparent 55%),
+      radial-gradient(ellipse at top right, var(--hero-glow), transparent 55%),
       linear-gradient(160deg,var(--navy-950) 0%, var(--navy-900) 55%, var(--navy-800) 100%);
-    color:#fff;
+    color:var(--on-dark-max);
     padding:32px 0 20px;
     overflow:hidden;
   }
   .hero::before{
     content:"";position:absolute;inset:0;
     background-image:
-      linear-gradient(rgba(255,255,255,0.035) 1px, transparent 1px),
-      linear-gradient(90deg, rgba(255,255,255,0.035) 1px, transparent 1px);
+      linear-gradient(var(--grid-line) 1px, transparent 1px),
+      linear-gradient(90deg, var(--grid-line) 1px, transparent 1px);
     background-size:56px 56px;
     mask-image:linear-gradient(180deg, transparent, black 20%, black 70%, transparent);
     pointer-events:none;
   }
   .hero .wrap{position:relative;z-index:1;}
+  /* .eyebrow defaults to --accent-ink, which is tuned for cream/white. On a
+     dark hero it reads at 2.7:1 — the dark sections below already override
+     it for the same reason, the hero was just missing the rule. */
+  .hero .eyebrow{color:var(--accent-400);}
   .hero-grid{display:grid;grid-template-columns:1.15fr 0.85fr;gap:60px;align-items:center;}
   .hero h1{
     font-size:clamp(28px,3.6vw,44px);
     line-height:1.12;
     margin:10px 0 12px;
-    color:#fdfcf9;
+    color:var(--on-dark-title);
   }
   .hero h1 em{font-style:italic;color:var(--accent-300);}
   .hero p.lead{
-    font-size:16.5px;color:#c3cede;max-width:540px;margin-bottom:16px;
+    font-size:16.5px;color:var(--on-dark-strong);max-width:540px;margin-bottom:16px;
   }
   .hero-actions{display:flex;gap:16px;flex-wrap:wrap;margin-bottom:18px;}
   .hero-stats{
     display:grid;grid-template-columns:repeat(3,1fr);gap:0;
-    border-top:1px solid rgba(255,255,255,0.14);
+    border-top:1px solid var(--rule-2);
     padding-top:10px;max-width:560px;
   }
   .hero-stats div{padding-right:20px;}
   .hero-stats .num{font-family:Georgia,serif;font-size:30px;color:var(--accent-400);}
-  .hero-stats .lbl{font-size:12.5px;color:#93a2b8;margin-top:4px;letter-spacing:0.3px;}
+  .hero-stats .lbl{font-size:12.5px;color:var(--on-dark-soft);margin-top:4px;letter-spacing:0.3px;}
 
   .hero-panel{
-    background:rgba(255,255,255,0.045);
-    border:1px solid rgba(255,255,255,0.12);
+    background:var(--panel-bg);
+    border:1px solid var(--rule-2);
     border-radius:4px;
     padding:26px 26px;
     backdrop-filter:blur(4px);
   }
-  .hero-panel h3{color:#fff;font-size:18px;margin-bottom:12px;}
+  .hero-panel h3{color:var(--on-dark-max);font-size:18px;margin-bottom:12px;}
   .hero-panel ul{list-style:none;margin:0 0 18px;padding:0;}
   .hero-panel li{
     display:flex;gap:12px;align-items:flex-start;
-    padding:9px 0;border-bottom:1px solid rgba(255,255,255,0.08);
-    font-size:14.5px;color:#d3dae5;
+    padding:9px 0;border-bottom:1px solid var(--rule-1);
+    font-size:14.5px;color:var(--on-dark-strong);
   }
   .hero-panel li:last-child{border-bottom:none;}
   .hero-panel li .dot{
     min-width:8px;height:8px;border-radius:50%;background:var(--accent-400);margin-top:6px;
   }
-  .hero-panel .offices{font-size:12.5px;color:#8fa2bd;line-height:1.8;}
-  .hero-panel .offices b{color:#cfd8e4;}
+  .hero-panel .offices{font-size:12.5px;color:var(--on-dark-soft);line-height:1.8;}
+  .hero-panel .offices b{color:var(--on-dark-strong);}
 
   @media (max-width:960px){
     .hero-grid{grid-template-columns:1fr;}
@@ -214,18 +410,18 @@
   }
   .skip-link:focus{left:8px;top:8px;}
   .section-head{max-width:640px;margin-bottom:34px;}
-  .section-head h2{font-size:clamp(26px,3.2vw,38px);margin-top:14px;color:var(--navy-950);}
+  .section-head h2{font-size:clamp(26px,3.2vw,38px);margin-top:14px;color:var(--heading-ink);}
   .section-head p{color:var(--ink-soft);font-size:16px;margin-top:16px;}
   .center{text-align:center;margin-left:auto;margin-right:auto;}
 
   /* ===== ABOUT ===== */
-  .about{background:#fff;}
+  .about{background:var(--surface-alt);}
   .about-grid{display:grid;grid-template-columns:1fr 1fr;gap:64px;align-items:start;}
   .about-copy p{color:var(--ink-soft);font-size:16px;margin-bottom:18px;}
   .about-copy .quote{
     border-left:3px solid var(--accent-500);
     padding-left:20px;margin:28px 0;
-    font-family:Georgia,serif;font-style:italic;font-size:18px;color:var(--navy-900);
+    font-family:Georgia,serif;font-style:italic;font-size:18px;color:var(--heading-ink);
   }
   .pillars{display:flex;flex-direction:column;gap:2px;}
   .pillar{
@@ -235,17 +431,17 @@
   .pillar .idx{
     font-family:Georgia,serif;font-size:26px;color:var(--accent-ink);min-width:44px;
   }
-  .pillar h4{font-size:17px;color:var(--navy-950);margin-bottom:6px;}
+  .pillar h4{font-size:17px;color:var(--heading-ink);margin-bottom:6px;}
   .pillar p{font-size:14.5px;color:var(--ink-soft);margin:0;}
 
   @media (max-width:900px){.about-grid{grid-template-columns:1fr;gap:40px;}}
 
   /* ===== SERVICES ===== */
-  .services{background:var(--navy-950);color:#fff;}
-  .services .section-head h2{color:#fff;}
-  .services .section-head p{color:#a8b4c6;}
+  .services{background:var(--navy-950);color:var(--on-dark-max);}
+  .services .section-head h2{color:var(--on-dark-max);}
+  .services .section-head p{color:var(--on-dark);}
   .services .eyebrow{color:var(--accent-400);}
-  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:rgba(255,255,255,0.09);}
+  .svc-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:1px;background:var(--rule-1);}
   .svc-card{
     background:var(--navy-950);
     padding:34px 30px;
@@ -255,8 +451,8 @@
   .svc-card .num{
     font-family:Georgia,serif;color:var(--accent-500);font-size:14px;letter-spacing:1px;
   }
-  .svc-card h3{font-size:19px;margin:14px 0 12px;color:#fdfcf9;}
-  .svc-card p{font-size:14.5px;color:#a8b4c6;margin:0;}
+  .svc-card h3{font-size:19px;margin:14px 0 12px;color:var(--on-dark-title);}
+  .svc-card p{font-size:14.5px;color:var(--on-dark);margin:0;}
   @media (max-width:900px){.svc-grid{grid-template-columns:1fr 1fr;}}
   @media (max-width:600px){.svc-grid{grid-template-columns:1fr;}}
 
@@ -264,13 +460,13 @@
   .approach{background:var(--cream);}
   .steps{display:grid;grid-template-columns:1fr 1fr;gap:30px;margin-top:10px;}
   .step{
-    background:#fff;border:1px solid var(--line);padding:38px 34px;position:relative;
+    background:var(--card-bg);border:1px solid var(--line);padding:38px 34px;position:relative;
   }
   .step .stage{
     display:inline-block;font-size:11.5px;letter-spacing:2px;text-transform:uppercase;
     color:var(--accent-ink);font-weight:700;margin-bottom:14px;
   }
-  .step h3{font-size:21px;color:var(--navy-950);margin-bottom:14px;}
+  .step h3{font-size:21px;color:var(--heading-ink);margin-bottom:14px;}
   .step p{color:var(--ink-soft);font-size:15px;}
   @media (min-width:901px){
     .steps{position:relative;}
@@ -281,31 +477,31 @@
   }
   @media (max-width:900px){.steps{grid-template-columns:1fr;}}
   .fit-note{
-    margin-top:34px;padding:22px 26px;background:#fff;
+    margin-top:34px;padding:22px 26px;background:var(--card-bg);
     color:var(--ink-soft);font-size:14.5px;
     border:1px solid var(--line);border-left:3px solid var(--accent-ink);
   }
 
   /* ===== RESULTS STRIP ===== */
-  .results{background:var(--navy-900);color:#fff;padding:64px 0;}
+  .results{background:var(--navy-900);color:var(--on-dark-max);padding:64px 0;}
   .results .wrap{display:grid;grid-template-columns:repeat(4,1fr);gap:30px;}
-  .result{text-align:center;padding:0 10px;border-right:1px solid rgba(255,255,255,0.12);}
+  .result{text-align:center;padding:0 10px;border-right:1px solid var(--rule-2);}
   .result:last-child{border-right:none;}
   .result .num{font-family:Georgia,serif;font-size:36px;color:var(--accent-400);}
-  .result .lbl{font-size:13px;color:#a8b4c6;margin-top:8px;letter-spacing:0.3px;}
+  .result .lbl{font-size:13px;color:var(--on-dark);margin-top:8px;letter-spacing:0.3px;}
   @media (max-width:900px){
     .results .wrap{grid-template-columns:1fr 1fr;row-gap:36px;}
     .result{border-right:none;}
   }
 
   /* ===== CLIENTS ===== */
-  .clients{background:#fff;}
+  .clients{background:var(--surface-alt);}
   .client-grid{
     display:grid;grid-template-columns:repeat(4,1fr);gap:1px;background:var(--line);
     border:1px solid var(--line);
   }
   .client-badge{
-    background:#fff;padding:26px 22px;text-align:center;
+    background:var(--card-bg);padding:26px 22px;text-align:center;
     display:flex;flex-direction:column;align-items:center;justify-content:center;
     gap:14px;min-height:150px;min-width:0;
   }
@@ -322,41 +518,41 @@
   /* Tighter than other sections: this is where every CTA on the page points,
      so the whole heading + form should clear a normal viewport without an
      extra scroll once the user lands here. */
-  .contact{background:var(--navy-950);color:#fff;padding-top:60px;}
+  .contact{background:var(--navy-950);color:var(--on-dark-max);padding-top:60px;}
   .contact .section-head{margin-bottom:32px;}
-  .contact .section-head h2{color:#fff;}
-  .contact .section-head p{color:#a8b4c6;}
+  .contact .section-head h2{color:var(--on-dark-max);}
+  .contact .section-head p{color:var(--on-dark);}
   .contact .eyebrow{color:var(--accent-400);}
   .contact-grid{display:grid;grid-template-columns:1fr 1fr;gap:60px;scroll-margin-top:100px;}
   .contact-info .office{margin-bottom:30px;}
   .contact-info h4{font-size:12.5px;letter-spacing:2px;text-transform:uppercase;color:var(--accent-400);margin-bottom:12px;}
-  .contact-info p{color:#c3cede;font-size:15px;margin:0 0 4px;}
-  .contact-info a{color:#fff;text-decoration:none;border-bottom:1px solid rgba(255,255,255,0.3);display:inline-block;padding:5px 0;margin:-5px 0;}
+  .contact-info p{color:var(--on-dark-strong);font-size:15px;margin:0 0 4px;}
+  .contact-info a{color:var(--on-dark-max);text-decoration:none;border-bottom:1px solid var(--rule-4);display:inline-block;padding:5px 0;margin:-5px 0;}
   .contact-info a:hover{border-color:var(--accent-400);color:var(--accent-300);}
-  .assoc{margin-top:36px;padding-top:26px;border-top:1px solid rgba(255,255,255,0.12);}
+  .assoc{margin-top:36px;padding-top:26px;border-top:1px solid var(--rule-2);}
   .assoc h4{font-size:12.5px;letter-spacing:2px;text-transform:uppercase;color:var(--accent-400);margin-bottom:12px;}
   .assoc-list{display:flex;flex-wrap:wrap;gap:10px;}
   .assoc-list span{
-    border:1px solid rgba(255,255,255,0.2);padding:6px 14px;font-size:13px;color:#d3dae5;border-radius:2px;
+    border:1px solid var(--rule-3);padding:6px 14px;font-size:13px;color:var(--on-dark-strong);border-radius:2px;
   }
 
-  form.contact-form{background:rgba(255,255,255,0.045);border:1px solid rgba(255,255,255,0.12);padding:28px 32px;border-radius:4px;}
+  form.contact-form{background:var(--panel-bg);border:1px solid var(--rule-2);padding:28px 32px;border-radius:4px;}
   .form-row{display:grid;grid-template-columns:1fr 1fr;gap:16px;margin-bottom:12px;}
   .form-field{display:flex;flex-direction:column;gap:5px;margin-bottom:12px;}
-  .form-field label{font-size:12.5px;color:#a8b4c6;letter-spacing:0.3px;}
+  .form-field label{font-size:12.5px;color:var(--on-dark);letter-spacing:0.3px;}
   .form-field input,.form-field textarea{
-    background:rgba(255,255,255,0.06);
-    border:1px solid rgba(255,255,255,0.18);
-    color:#fff;padding:11px 14px;font-size:14.5px;border-radius:2px;font-family:inherit;
+    background:var(--field-bg);
+    border:1px solid var(--rule-3);
+    color:var(--on-dark-max);padding:11px 14px;font-size:14.5px;border-radius:2px;font-family:inherit;
     outline:none;transition:border-color .2s;
   }
   .form-field input:focus,.form-field textarea:focus{border-color:var(--accent-400);}
   .form-field textarea{resize:vertical;min-height:72px;}
   .form-field input:invalid{box-shadow:none;} /* don't red-flag until user has tried to submit */
-  .form-field.field-invalid input{border-color:#e0796b;}
+  .form-field.field-invalid input{border-color:var(--err);}
   form.contact-form .btn-accent{width:100%;justify-content:center;margin-top:6px;}
   form.contact-form .btn-accent:disabled{opacity:.6;cursor:not-allowed;}
-  .form-note{font-size:12px;color:#7d8ba3;margin-top:14px;text-align:center;}
+  .form-note{font-size:12px;color:var(--text-muted);margin-top:14px;text-align:center;}
   .form-note a{color:var(--accent-400);}
   .form-note a:hover{color:var(--accent-300);}
 
@@ -364,17 +560,17 @@
   .hp-field{display:none;}
 
   .form-status{font-size:14px;margin-top:14px;text-align:center;min-height:0;}
-  .form-status.is-success{color:#7bd9a5;}
-  .form-status.is-error{color:#e0796b;}
+  .form-status.is-success{color:var(--ok);}
+  .form-status.is-error{color:var(--err);}
 
   @media (max-width:900px){.contact-grid{grid-template-columns:1fr;}.form-row{grid-template-columns:1fr;}}
 
   /* ===== FOOTER ===== */
-  footer{background:var(--navy-950);border-top:1px solid rgba(255,255,255,0.08);padding:36px 0;}
+  footer{background:var(--navy-950);border-top:1px solid var(--rule-1);padding:36px 0;}
   .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
   .foot-row .logo .name{font-size:17px;}
-  footer p{color:#7d8ba3;font-size:13px;margin:0;}
-  footer nav a{color:#a8b4c6;text-decoration:none;font-size:13px;display:inline-block;padding:10px 0;margin:-10px 0 -10px 22px;}
+  footer p{color:var(--text-muted);font-size:13px;margin:0;}
+  footer nav a{color:var(--on-dark);text-decoration:none;font-size:13px;display:inline-block;padding:10px 0;margin:-10px 0 -10px 22px;}
   footer nav a:hover{color:var(--accent-400);}
 
   /* generic reveal */
@@ -427,6 +623,73 @@
   @media (max-width:600px){
     .whatsapp-fab{right:16px;bottom:16px;width:54px;height:54px;}
     .whatsapp-fab svg{width:29px;height:29px;}
+  }
+
+  /* ===== THEME SWITCHER — CLIENT PREVIEW TOOL =====
+     A review aid so the client can compare the presets on the real page
+     instead of over email. It is not a site feature: delete this block, the
+     .theme-switch markup and the script tagged the same way before launch,
+     and the page falls back to whichever preset :root declares. */
+  .theme-switch{
+    position:fixed;left:24px;bottom:24px;z-index:200;
+    display:flex;align-items:center;gap:10px;
+    padding:8px 8px 8px 16px;
+    background:rgba(18,18,22,0.94);
+    border:1px solid rgba(255,255,255,0.16);
+    border-radius:40px;
+    box-shadow:0 8px 24px rgba(0,0,0,0.32);
+    backdrop-filter:blur(8px);
+    font-size:11px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;
+    color:#c9d1dd;
+  }
+  .theme-switch[hidden]{display:none;}
+  .theme-switch .ts-label{white-space:nowrap;}
+  .theme-switch .ts-opts{display:flex;gap:2px;}
+  /* 44px hit area around a 26px dot — the control stays visually small
+     without dropping under the 2.5.8 target minimum the rest of the page
+     already meets. */
+  .theme-switch button{
+    width:44px;height:44px;padding:0;margin:0;
+    background:none;border:none;cursor:pointer;color:inherit;
+    display:flex;align-items:center;justify-content:center;
+  }
+  .ts-swatch{
+    width:26px;height:26px;border-radius:50%;display:block;
+    border:2px solid rgba(255,255,255,0.35);
+    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
+  }
+  .ts-swatch[data-sw="black"]{background:linear-gradient(135deg,#0a0a0c 0 50%,#1565c8 50% 100%);}
+  .ts-swatch[data-sw="navy"]{background:linear-gradient(135deg,#0a1628 0 50%,#1565c8 50% 100%);}
+  /* Three-way split, not two: against the near-black preset a black/blue
+     swatch would be indistinguishable, and the white band is the point. */
+  .ts-swatch[data-sw="mono"]{background:linear-gradient(135deg,#000 0 33%,#fff 33% 66%,#1565c8 66% 100%);}
+  .ts-swatch[data-sw="light"]{background:linear-gradient(135deg,#0a0a0c 0 33%,#ffffff 33% 66%,#1a6ed0 66% 100%);}
+  .ts-swatch[data-sw="original"]{background:linear-gradient(135deg,#0a1628 0 50%,#5b9bd4 50% 100%);}
+  .theme-switch button:hover .ts-swatch{transform:scale(1.12);border-color:rgba(255,255,255,0.7);}
+  .theme-switch button[aria-pressed="true"] .ts-swatch{
+    border-color:#fff;transform:scale(1.12);
+    box-shadow:0 0 0 3px rgba(255,255,255,0.22);
+  }
+  .ts-close{font-size:19px;line-height:1;opacity:.6;width:34px;}
+  .ts-close:hover{opacity:1;}
+  /* The swatches carry no text, so each button needs a name a screen reader
+     can announce. Clipped rather than display:none so it stays announceable. */
+  .sr-only{
+    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+    overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+  }
+  @media (max-width:600px){
+    /* Five swatches at 40px leave 10px before the WhatsApp button at 360px.
+       38px keeps ~40px of clearance and is still well over the 24px CSS
+       minimum in WCAG 2.5.8 AA. Adding a sixth preset would need a rethink
+       of this bar rather than another few pixels shaved off. */
+    .theme-switch{left:12px;bottom:14px;padding:6px;gap:6px;font-size:10px;letter-spacing:1px;}
+    .theme-switch button{width:38px;height:38px;}
+    .ts-close{width:30px;}
+    /* Four swatches plus the word "Colours" leaves only 4px before the
+       WhatsApp button at 375px, and collides outright at 360px. The label is
+       decorative — each swatch still has a title and an sr-only name. */
+    .theme-switch .ts-label{display:none;}
   }
 
   /* ===== SPACING RESTORE (tall/wide screens) =====
@@ -731,8 +994,51 @@
   </svg>
 </a>
 
+<!-- CLIENT PREVIEW TOOL — remove this block, its CSS and its script before launch. -->
+<div class="theme-switch" id="themeSwitch" role="group" aria-label="Preview colour scheme">
+  <span class="ts-label" aria-hidden="true">Colours</span>
+  <div class="ts-opts">
+    <button type="button" data-theme-btn="black" aria-pressed="false" title="Black header + logo blue"><span class="ts-swatch" data-sw="black"></span><span class="sr-only">Black header with logo blue</span></button>
+    <button type="button" data-theme-btn="navy" aria-pressed="false" title="Navy header + logo blue"><span class="ts-swatch" data-sw="navy"></span><span class="sr-only">Navy header with logo blue</span></button>
+    <button type="button" data-theme-btn="mono" aria-pressed="false" title="Black &amp; white + logo blue"><span class="ts-swatch" data-sw="mono"></span><span class="sr-only">Black and white with logo blue</span></button>
+    <button type="button" data-theme-btn="light" aria-pressed="false" title="White page, black header, lighter blue"><span class="ts-swatch" data-sw="light"></span><span class="sr-only">White page with a black header and lighter blue</span></button>
+    <button type="button" data-theme-btn="original" aria-pressed="false" title="Original scheme"><span class="ts-swatch" data-sw="original"></span><span class="sr-only">Original colour scheme</span></button>
+  </div>
+  <button type="button" class="ts-close" id="themeSwitchClose" title="Hide until the page is reloaded" aria-label="Hide the colour switcher">&times;</button>
+</div>
+
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
+
+  /* CLIENT PREVIEW TOOL — colour-scheme switcher. Remove with its markup
+     and CSS before launch. The preset is applied to <html data-theme> and
+     every themed colour is a custom property, so this only ever writes one
+     attribute; nothing else in the page needs to know a switch happened.
+     The pre-paint script in <head> re-applies the saved choice on reload. */
+  (function(){
+    const bar = document.getElementById('themeSwitch');
+    const buttons = bar.querySelectorAll('[data-theme-btn]');
+    const meta = document.querySelector('meta[name="theme-color"]');
+    const root = document.documentElement;
+
+    function apply(name, persist){
+      root.setAttribute('data-theme', name);
+      buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeBtn === name)));
+      // Mobile browser chrome reads this, so it has to follow the preset or
+      // the address bar keeps the old colour after a switch.
+      const c = getComputedStyle(root).getPropertyValue('--meta-theme').trim();
+      if (meta && c) meta.setAttribute('content', c);
+      if (persist) { try { localStorage.setItem('be-theme', name); } catch(e){} }
+    }
+
+    let current = root.getAttribute('data-theme');
+    if (!current) { current = 'black'; }
+    apply(current, false);
+
+    buttons.forEach(b => b.addEventListener('click', () => apply(b.dataset.themeBtn, true)));
+    document.getElementById('themeSwitchClose')
+      .addEventListener('click', () => { bar.hidden = true; });
+  })();
 
   const menuToggle = document.getElementById('menuToggle');
   const navList = document.getElementById('navList');
