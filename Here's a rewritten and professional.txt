@@ -1,0 +1,57 @@
+Here's a rewritten and professional version of your meeting notes:
+
+---
+
+## Meeting Notes
+
+### General
+
+* Add the following contact information:
+
+  * **Email**
+  * **WhatsApp**
+  * **New Address**
+
+### Language
+
+* Prepare the content in **English first**.
+* After the English version is finalized, create the **Arabic version**.
+
+### About Us
+
+* Use the **About Us** content from the **previous version (Page 2)** as the base, with improvements where needed.
+
+### Business Information
+
+* Add information about:
+
+  * **Customer cost optimization**
+  * **Banking sector experience**, including **KFH (Kuwait Finance House)**
+
+### Target Market
+
+* Mention that the primary customer base is within the **GCC**, with a focus on **Bahrain**.
+
+### Experience & Portfolio
+
+* Include selected projects from previous experience.
+* Add the names of key sectors and clients where possible.
+* Highlight work completed in industries such as:
+
+  * Oil & Gas
+  * Medical / Healthcare
+  * Banking
+  * Government
+* Briefly describe the services or solutions delivered for each sector.
+
+### Design
+
+* Use the following color palette throughout the document:
+
+  * **Blue**
+  * **White**
+  * **Black**
+
+---
+
+This version is suitable for sharing with a designer or content writer as clear meeting action items.

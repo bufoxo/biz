@@ -1,11 +1,14 @@
 <!DOCTYPE html>
-<html lang="en" class="no-js">
+<html lang="en" class="no-js" data-theme="periwinkle">
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
 <title>Biz Excel Consulting | Your Business Transformation Partner in Bahrain</title>
 <meta name="description" content="Biz Excel Consulting is a Bahrain-based business transformation, pricing, customer experience and strategy consultancy serving leading organizations across the GCC.">
-<meta name="theme-color" content="#0a0a0c">
+<!-- Mobile browser chrome. Hard-coded rather than read from --meta-theme,
+     so it works with JavaScript off — if the preset on <html> changes,
+     change this to that preset's --meta-theme value too. -->
+<meta name="theme-color" content="#8394ca">
 <link rel="canonical" href="https://www.bizexcel.biz/">
 
 <!-- Link previews (WhatsApp / LinkedIn / X). Absolute URLs are required by these
@@ -27,19 +30,18 @@
 <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 64 64'%3E%3Crect width='64' height='64' rx='8' fill='%230a0a0c'/%3E%3Ctext x='50%25' y='50%25' dy='.35em' text-anchor='middle' font-family='Georgia,serif' font-size='30' font-weight='bold' fill='%234a9be0'%3EBE%3C/text%3E%3C/svg%3E">
 
 <script>
-  /* Runs before first paint so a saved preset never flashes the default
-     palette first. Keep this inline and in <head> — deferring it moves the
-     swap after paint and reintroduces the flash. */
+  /* Swaps the no-js class before first paint. The palette is not set here:
+     it is declared on <html data-theme> in the markup above, so it survives
+     JavaScript being off and cannot flash a different scheme first. */
   document.documentElement.className='js';
-  try{
-    var saved=localStorage.getItem('be-theme');
-    if(saved) document.documentElement.setAttribute('data-theme',saved);
-  }catch(e){/* private mode: fall through to the default preset */}
 </script>
 <style>
   /* ===== PALETTE =====
-     Three presets the client can flip between using the swatch switcher at
-     bottom-left. Everything themable lives in a custom property redefined
+     The client blue is the site palette, set on <html data-theme> in the
+     markup. The five presets below it were review alternatives and are now
+     inert: no element carries their names, so they cost nothing and are
+     kept only so a scheme can be restored by changing that one attribute.
+     Everything themable lives in a custom property redefined
      per [data-theme] — no rule further down hard-codes a surface or brand
      colour, so a fourth preset is one more block here and nothing else.
 
@@ -57,6 +59,27 @@
     --accent-400:#79b4ea;   /* small text on dark */
     --accent-300:#aed3f5;   /* lightest — hero emphasis, link hover */
     --accent-ink:#0f56a0;   /* the true logo ink — text on cream/white */
+    /* The wordmark, in two parts: --logo-base paints "Biz" and "Consulting",
+       --logo-accent paints "Excel". They are tokens rather than literals
+       because the mark sits on the header AND the footer, and the presets
+       do not give those two surfaces the same colour — on the light preset
+       the header is black while the footer is white, so one pair of values
+       cannot serve both. Any preset that changes either surface has to set
+       these, or the mark disappears into its own background. */
+    --logo-base:#8394ca;
+    --logo-accent:#ffffff;
+
+    /* Form surfaces. These default to the panel/accent values the dark
+       presets already used, so nothing changes for them — they exist
+       because a light field needs dark ink, a dark focus ring and a submit
+       button that is not the same colour as the card it sits on, and none
+       of that can be derived from --panel-bg alone. */
+    --field-ink:var(--on-dark-max);   /* what the visitor types */
+    --field-focus:var(--accent-400);  /* focus border and ring on a field */
+    --submit-bg:var(--brand-500);     /* the submit button, which sits INSIDE
+                                         the card and so cannot always match
+                                         the header CTA, which sits on the page */
+    --submit-fg:var(--brand-fg);
     /* Text sitting ON dark surfaces, in four weights. These carry a slight
        blue cast by default, which suits the navy presets; the monochrome
        preset swaps them for true neutrals, which is the whole reason they
@@ -81,6 +104,10 @@
     --field-bg:rgba(255,255,255,0.06);
     --grid-line:rgba(255,255,255,0.035);
 
+    --band-bg:var(--navy-950);  /* the surface under the photo bands. It follows
+                               the dark sections by default, but a preset whose
+                               --navy-950 is a mid-tone has to override it: see
+                               PHOTO BANDS below. */
     --cream:#f7f4ee;        /* the alternating light section (approach, body) */
     --surface-alt:#ffffff;  /* the other light section (about, clients) */
     --card-bg:#ffffff;      /* cards sitting on a light section */
@@ -201,6 +228,10 @@
     --line:#dfe3e8;
     --ok:#127a45;           /* the on-dark greens/reds are far too pale on white */
     --err:#b02a1c;
+    /* White footer: #8394ca on it is 2.98:1 and a white "Excel" is invisible,
+       so the mark reverts to the printed artwork — dark name, blue accent. */
+    --logo-base:#101317;
+    --logo-accent:#1565c8;
   }
 
   /* ...but the header stays black — the single dark band on an otherwise
@@ -214,8 +245,10 @@
     --on-dark-max:#ffffff;
     --on-dark-strong:#d9e1ec;
     --on-dark-soft:#9aa5b4;
-    --accent-400:#5aa3ec;   /* "Excel" in the wordmark, and nav hover */
+    --accent-400:#5aa3ec;   /* nav hover */
     --rule-1:rgba(255,255,255,0.08);
+    --logo-base:#8394ca;    /* black header: the standard pair works again */
+    --logo-accent:#ffffff;
   }
 
   /* Preset 5 — ORIGINAL: the site exactly as it looked before this change,
@@ -235,6 +268,94 @@
     --accent-400:#74aada;
     --accent-300:#a8cbe8;
     --accent-ink:#2c6faa;
+  }
+
+  /* Preset 6 — PERIWINKLE: #8394ca, the client's own colour, sampled from
+     the image they sent, with the white text that image uses.
+
+     THIS PRESET DOES NOT MEET WCAG AA, and that is a decision rather than
+     an oversight. White on #8394ca is 2.98:1 against a 4.5:1 requirement
+     for body copy — and against the 3:1 allowed for large text, which it
+     also misses, by 0.02. The client was shown the measurements and three
+     alternatives that do pass, including the same hue darkened to #576eb7
+     where white reaches 4.86:1, and chose this. Everything painted
+     directly on the surface inherits that 2.98:1; the panels, fields and
+     photo bands below darken their own backgrounds and do pass, so the
+     contact form and the band captions are the legible parts of the page.
+
+     If this is ever revisited: the fix is the surface, not the text. No
+     text colour clears 4.5:1 on an L=0.30 background — black manages
+     7.05:1 but reads as the ink-on-lilac combination the client rejected.
+     Darkening the surface to #5f75bb is the smallest change that makes
+     white compliant, and it is close enough in hue that it reads as the
+     same colour at a glance. */
+  :root[data-theme="periwinkle"]{
+    --navy-950:#8394ca;     /* header, hero, services, contact, footer */
+    --navy-900:#7384c1;     /* results strip — a step deeper, which also buys
+                               its own text a little contrast back */
+    --navy-800:#7a8cc6;     /* service-card hover: deepens rather than lifts,
+                               since lifting costs the white what little it has */
+    --navy-700:#6d7fbd;
+    --header-bg:rgba(131,148,202,0.97);
+    --hero-glow:rgba(255,255,255,0.12);
+    --meta-theme:#8394ca;
+
+    /* One colour, in practice. There is no contrast budget to spend on a
+       muted step here, so hierarchy is carried by size, weight and the
+       serif; dimming any of these only makes a failing ratio worse. */
+    --on-dark-max:#ffffff;
+    --on-dark-title:#ffffff;
+    --on-dark-strong:#ffffff;
+    --on-dark:#ffffff;
+    --on-dark-soft:#ffffff;
+    --text-muted:#ffffff;
+
+    --rule-1:rgba(255,255,255,0.22);
+    --rule-2:rgba(255,255,255,0.30);
+    --rule-3:rgba(255,255,255,0.42);
+    --rule-4:rgba(255,255,255,0.55);
+    /* Panels go solid navy here, not a translucent wash. An alpha black
+       over #8394ca reads as a muddied patch of the background; a stated
+       colour reads as a card, and it takes everything printed on it from
+       2.98:1 to 16.5:1. Fields invert with it: white, with navy ink. */
+    --panel-bg:#131e3a;
+    --field-bg:#ffffff;
+    --field-ink:#131e3a;
+    --field-focus:#131e3a;  /* a white ring would be invisible on a white field */
+    --grid-line:rgba(255,255,255,0.07);
+
+    /* The header CTA sits on #8394ca, so it goes navy: 5.54:1 against the
+       surface, white label at 16.5:1. The submit button sits inside the
+       navy card instead, so it inverts to the brand colour with navy text,
+       5.54:1 either way. Same two colours, swapped to suit the surface. */
+    --brand-500:#131e3a;
+    --brand-hover:#1b2950;
+    --brand-fg:#ffffff;
+    --submit-bg:#8394ca;
+    --submit-fg:#131e3a;
+    --accent-500:#ffffff;
+    --accent-400:#ffffff;
+    --accent-300:#ffffff;
+    --accent-ink:#0f56a0;   /* untouched: only ever paints on the pale sections */
+
+    --cream:#eef0f7;        /* the alternating sections, pulled to the same hue */
+    --surface-alt:#f6f7fb;
+    --card-bg:#ffffff;
+    --heading-ink:#101317;
+    --ink:#191d22;
+    --ink-soft:#4a515b;
+    --line:#dde0ea;
+    --ok:#ffffff;
+    --err:#ffe2dc;
+
+    --band-bg:#2b3a66;      /* the bands keep the deep surface: a veiled photo
+                               on a mid-tone left the captions at 3.15:1 */
+    /* "Biz" cannot be #8394ca here — that is the header and footer colour,
+       so it would sit on itself at 1:1. It takes the deep blue instead,
+       which is the one part of this preset's wordmark that clears AA, at
+       4.55:1. "Excel" stays white as asked, at the preset's usual 2.98:1. */
+    --logo-base:#1c2a4d;
+    --logo-accent:#ffffff;
   }
   *{box-sizing:border-box;}
   html{scroll-behavior:smooth;}
@@ -297,9 +418,40 @@
   .logo{
     display:flex;flex-direction:column;line-height:1.1;color:var(--on-dark-max);text-decoration:none;
   }
-  .logo .name{font-family:Georgia,serif;font-size:22px;letter-spacing:0.5px;}
-  .logo .name b{color:var(--accent-400);font-weight:600;}
+  .logo .name{font-family:Georgia,serif;font-size:22px;letter-spacing:0.5px;color:var(--logo-base);}
+  .logo .name b{color:var(--logo-accent);font-weight:600;}
   .logo .tag{font-size:9.5px;letter-spacing:2px;text-transform:uppercase;color:var(--on-dark-soft);margin-top:3px;}
+
+  /* The real wordmark. The artwork is three flat colours on a transparent
+     ground, so it ships as three alpha masks cut from one 4166x1188 canvas
+     rather than as a flattened PNG: each layer is painted by the same token
+     the text wordmark used, which is what lets one asset serve a black
+     header, a periwinkle header and a white footer. A baked-in PNG would
+     need four variants and would still be wrong on the next preset.
+     The text stays in the DOM below: it is the link's accessible name, and
+     it is what renders if masking is unavailable. */
+  .logomark{
+    display:none;position:relative;
+    width:152px;height:43.35px;   /* 4166 x 1188 -> 3.5067:1 */
+    flex:none;
+  }
+  .logomark span{
+    position:absolute;inset:0;
+    -webkit-mask-repeat:no-repeat;mask-repeat:no-repeat;
+    -webkit-mask-size:100% 100%;mask-size:100% 100%;
+  }
+  .lm-biz{background:var(--logo-base);-webkit-mask-image:url(logos/brand-biz.png);mask-image:url(logos/brand-biz.png);}
+  .lm-excel{background:var(--logo-accent);-webkit-mask-image:url(logos/brand-excel.png);mask-image:url(logos/brand-excel.png);}
+  /* --on-dark-soft, not a token of its own: it has to resolve against the
+     element, because <header> in the light preset redefines it. */
+  .lm-tag{background:var(--on-dark-soft);-webkit-mask-image:url(logos/brand-tag.png);mask-image:url(logos/brand-tag.png);}
+  @supports ((-webkit-mask-image:url(a)) or (mask-image:url(a))){
+    .logomark{display:block;}
+    .logo .name,.logo .tag{
+      position:absolute;width:1px;height:1px;padding:0;margin:-1px;
+      overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
+    }
+  }
   .nav ul{list-style:none;display:flex;gap:34px;margin:0;padding:0;}
   .nav ul a{
     color:var(--on-dark-strong);text-decoration:none;font-size:14px;font-weight:500;letter-spacing:0.3px;
@@ -543,14 +695,21 @@
   .form-field input,.form-field textarea{
     background:var(--field-bg);
     border:1px solid var(--rule-3);
-    color:var(--on-dark-max);padding:11px 14px;font-size:14.5px;border-radius:2px;font-family:inherit;
+    color:var(--field-ink);padding:11px 14px;font-size:14.5px;border-radius:2px;font-family:inherit;
     outline:none;transition:border-color .2s;
   }
-  .form-field input:focus,.form-field textarea:focus{border-color:var(--accent-400);}
+  .form-field input:focus,.form-field textarea:focus{border-color:var(--field-focus);}
+  /* The page-wide focus ring is --accent-400, which is white on the
+     periwinkle preset and so vanishes against a white field. */
+  .form-field input:focus-visible,.form-field textarea:focus-visible{outline-color:var(--field-focus);}
   .form-field textarea{resize:vertical;min-height:72px;}
   .form-field input:invalid{box-shadow:none;} /* don't red-flag until user has tried to submit */
   .form-field.field-invalid input{border-color:var(--err);}
-  form.contact-form .btn-accent{width:100%;justify-content:center;margin-top:6px;}
+  form.contact-form .btn-accent{
+    width:100%;justify-content:center;margin-top:6px;
+    background:var(--submit-bg);color:var(--submit-fg);
+  }
+  form.contact-form .btn-accent:hover{background:var(--submit-bg);filter:brightness(1.08);}
   form.contact-form .btn-accent:disabled{opacity:.6;cursor:not-allowed;}
   .form-note{font-size:12px;color:var(--text-muted);margin-top:14px;text-align:center;}
   .form-note a{color:var(--accent-400);}
@@ -573,18 +732,28 @@
      7693201, digital 8386437, meeting 7693692 (pexels.com/photo/<id>/).
 
      Full-bleed imagery at four section transitions. The photo never carries
-     its colour on its own: it sits at reduced opacity over --navy-950, so
-     every preset tints it to that preset's own dark surface and the caption
-     holds contrast without a single per-theme override. The veil alone is
-     not enough for the caption: sampled against the pixels actually behind
-     it, the veil alone bottomed out at 4.43:1 on the light preset, just
-     under AA, so the scrim below adds a second pass down the caption's own
-     edge. Re-sampled with both, the worst of the 20 photo/preset pairs is
-     8.6:1 at desktop width and 5.7:1 at 375px, where the caption runs past
-     the left scrim and the type is at its 19px floor — both clear AA.
-     Swapping a photo for a paler one is safe; dropping the left scrim, or
-     widening the caption past 17em, is not. */
-  .photo-band{position:relative;background:var(--navy-950);overflow:hidden;isolation:isolate;}
+     its colour on its own: it sits at reduced opacity over --band-bg, so
+     each preset tints it to that preset's own band surface and the caption
+     holds contrast. The veil alone is not enough: sampled against the
+     pixels actually behind it, it bottomed out at 4.43:1 on the light
+     preset, just under AA, so the scrim below adds a second pass down the
+     caption's own edge.
+
+     --band-bg exists because the veil only works from an extreme. Over a
+     near-black or a white surface the composite stays far from the text;
+     over a mid-tone it lands next to it, and on the periwinkle preset the
+     captions measured 3.15:1 while every other preset sat above 7. That
+     preset overrides --band-bg to a deep blue rather than weakening the
+     veil, which would have bleached the photographs to keep the type
+     legible. Any future preset with a mid-tone --navy-950 has to do the
+     same.
+
+     Measured worst case with veil and both scrims, over all six presets
+     and all four photos: 5.31:1 at desktop width and 6.05:1 at 375px, both
+     on periwinkle, which is the tightest preset at either size. Swapping a
+     photo for a paler one is safe; dropping a scrim, or widening the
+     caption past 17em, is not. */
+  .photo-band{position:relative;background:var(--band-bg);overflow:hidden;isolation:isolate;}
   .photo-band img{
     position:absolute;inset:0;z-index:-2;
     width:100%;height:100%;object-fit:cover;
@@ -596,8 +765,8 @@
   .photo-band::after{
     content:"";position:absolute;inset:0;z-index:-1;
     background:
-      linear-gradient(to right,var(--navy-950) 0%,transparent 58%),
-      linear-gradient(to top,var(--navy-950) 4%,transparent 64%);
+      linear-gradient(to right,var(--band-bg) 0%,transparent 58%),
+      linear-gradient(to top,var(--band-bg) 4%,transparent 64%);
   }
   .photo-band .wrap{
     position:relative;min-height:clamp(210px,25vw,320px);
@@ -615,12 +784,24 @@
   }
   @media (max-width:600px){
     .photo-band .wrap{min-height:180px;padding-top:40px;padding-bottom:30px;}
+    /* The caption is 17em wide and a phone is not much wider, so it runs out
+       past the side scrim and the bottom one has to carry it alone. Without
+       this the narrowest case measured 4.20:1 on the periwinkle preset,
+       whose band surface sits closest to the type. More of the photo is
+       veiled here than at desktop width; that is the trade for a caption
+       that stays readable on a phone. */
+    .photo-band::after{
+      background:
+        linear-gradient(to right,var(--band-bg) 0%,transparent 72%),
+        linear-gradient(to top,var(--band-bg) 26%,transparent 86%);
+    }
   }
 
   /* ===== FOOTER ===== */
   footer{background:var(--navy-950);border-top:1px solid var(--rule-1);padding:36px 0;}
   .foot-row{display:flex;justify-content:space-between;align-items:center;flex-wrap:wrap;gap:16px;}
   .foot-row .logo .name{font-size:17px;}
+  .foot-row .logomark{width:132px;height:37.64px;}
   footer p{color:var(--text-muted);font-size:13px;margin:0;}
   footer nav a{color:var(--on-dark);text-decoration:none;font-size:13px;display:inline-block;padding:10px 0;margin:-10px 0 -10px 22px;}
   footer nav a:hover{color:var(--accent-400);}
@@ -677,73 +858,6 @@
     .whatsapp-fab svg{width:29px;height:29px;}
   }
 
-  /* ===== THEME SWITCHER — CLIENT PREVIEW TOOL =====
-     A review aid so the client can compare the presets on the real page
-     instead of over email. It is not a site feature: delete this block, the
-     .theme-switch markup and the script tagged the same way before launch,
-     and the page falls back to whichever preset :root declares. */
-  .theme-switch{
-    position:fixed;left:24px;bottom:24px;z-index:200;
-    display:flex;align-items:center;gap:10px;
-    padding:8px 8px 8px 16px;
-    background:rgba(18,18,22,0.94);
-    border:1px solid rgba(255,255,255,0.16);
-    border-radius:40px;
-    box-shadow:0 8px 24px rgba(0,0,0,0.32);
-    backdrop-filter:blur(8px);
-    font-size:11px;font-weight:600;letter-spacing:1.4px;text-transform:uppercase;
-    color:#c9d1dd;
-  }
-  .theme-switch[hidden]{display:none;}
-  .theme-switch .ts-label{white-space:nowrap;}
-  .theme-switch .ts-opts{display:flex;gap:2px;}
-  /* 44px hit area around a 26px dot — the control stays visually small
-     without dropping under the 2.5.8 target minimum the rest of the page
-     already meets. */
-  .theme-switch button{
-    width:44px;height:44px;padding:0;margin:0;
-    background:none;border:none;cursor:pointer;color:inherit;
-    display:flex;align-items:center;justify-content:center;
-  }
-  .ts-swatch{
-    width:26px;height:26px;border-radius:50%;display:block;
-    border:2px solid rgba(255,255,255,0.35);
-    transition:transform .15s ease, border-color .15s ease, box-shadow .15s ease;
-  }
-  .ts-swatch[data-sw="black"]{background:linear-gradient(135deg,#0a0a0c 0 50%,#1565c8 50% 100%);}
-  .ts-swatch[data-sw="navy"]{background:linear-gradient(135deg,#0a1628 0 50%,#1565c8 50% 100%);}
-  /* Three-way split, not two: against the near-black preset a black/blue
-     swatch would be indistinguishable, and the white band is the point. */
-  .ts-swatch[data-sw="mono"]{background:linear-gradient(135deg,#000 0 33%,#fff 33% 66%,#1565c8 66% 100%);}
-  .ts-swatch[data-sw="light"]{background:linear-gradient(135deg,#0a0a0c 0 33%,#ffffff 33% 66%,#1a6ed0 66% 100%);}
-  .ts-swatch[data-sw="original"]{background:linear-gradient(135deg,#0a1628 0 50%,#5b9bd4 50% 100%);}
-  .theme-switch button:hover .ts-swatch{transform:scale(1.12);border-color:rgba(255,255,255,0.7);}
-  .theme-switch button[aria-pressed="true"] .ts-swatch{
-    border-color:#fff;transform:scale(1.12);
-    box-shadow:0 0 0 3px rgba(255,255,255,0.22);
-  }
-  .ts-close{font-size:19px;line-height:1;opacity:.6;width:34px;}
-  .ts-close:hover{opacity:1;}
-  /* The swatches carry no text, so each button needs a name a screen reader
-     can announce. Clipped rather than display:none so it stays announceable. */
-  .sr-only{
-    position:absolute;width:1px;height:1px;padding:0;margin:-1px;
-    overflow:hidden;clip:rect(0 0 0 0);white-space:nowrap;border:0;
-  }
-  @media (max-width:600px){
-    /* Five swatches at 40px leave 10px before the WhatsApp button at 360px.
-       38px keeps ~40px of clearance and is still well over the 24px CSS
-       minimum in WCAG 2.5.8 AA. Adding a sixth preset would need a rethink
-       of this bar rather than another few pixels shaved off. */
-    .theme-switch{left:12px;bottom:14px;padding:6px;gap:6px;font-size:10px;letter-spacing:1px;}
-    .theme-switch button{width:38px;height:38px;}
-    .ts-close{width:30px;}
-    /* Four swatches plus the word "Colours" leaves only 4px before the
-       WhatsApp button at 375px, and collides outright at 360px. The label is
-       decorative — each swatch still has a title and an sr-only name. */
-    .theme-switch .ts-label{display:none;}
-  }
-
   /* ===== SPACING RESTORE (tall/wide screens) =====
      Placed last on purpose: several rules below (section, .section-head)
      share exact specificity with base rules declared earlier in this file,
@@ -773,6 +887,7 @@
 <header>
   <div class="nav">
     <a href="#top" class="logo">
+      <span class="logomark" aria-hidden="true"><span class="lm-biz"></span><span class="lm-excel"></span><span class="lm-tag"></span></span>
       <span class="name">Biz <b>Excel</b> Consulting</span>
       <span class="tag">Your Business Transformation Partner</span>
     </a>
@@ -1049,7 +1164,7 @@
 
 <footer>
   <div class="wrap foot-row">
-    <a href="#top" class="logo"><span class="name">Biz <b>Excel</b> Consulting</span></a>
+    <a href="#top" class="logo"><span class="logomark" aria-hidden="true"><span class="lm-biz"></span><span class="lm-excel"></span><span class="lm-tag"></span></span><span class="name">Biz <b>Excel</b> Consulting</span></a>
     <p>&copy; <span id="year"></span> Biz Excel Consulting. Delivering Excellence to Excel.</p>
     <nav>
       <a href="#about">About</a>
@@ -1066,51 +1181,8 @@
   </svg>
 </a>
 
-<!-- CLIENT PREVIEW TOOL — remove this block, its CSS and its script before launch. -->
-<div class="theme-switch" id="themeSwitch" role="group" aria-label="Preview colour scheme">
-  <span class="ts-label" aria-hidden="true">Colours</span>
-  <div class="ts-opts">
-    <button type="button" data-theme-btn="black" aria-pressed="false" title="Black header + logo blue"><span class="ts-swatch" data-sw="black"></span><span class="sr-only">Black header with logo blue</span></button>
-    <button type="button" data-theme-btn="navy" aria-pressed="false" title="Navy header + logo blue"><span class="ts-swatch" data-sw="navy"></span><span class="sr-only">Navy header with logo blue</span></button>
-    <button type="button" data-theme-btn="mono" aria-pressed="false" title="Black &amp; white + logo blue"><span class="ts-swatch" data-sw="mono"></span><span class="sr-only">Black and white with logo blue</span></button>
-    <button type="button" data-theme-btn="light" aria-pressed="false" title="White page, black header, lighter blue"><span class="ts-swatch" data-sw="light"></span><span class="sr-only">White page with a black header and lighter blue</span></button>
-    <button type="button" data-theme-btn="original" aria-pressed="false" title="Original scheme"><span class="ts-swatch" data-sw="original"></span><span class="sr-only">Original colour scheme</span></button>
-  </div>
-  <button type="button" class="ts-close" id="themeSwitchClose" title="Hide until the page is reloaded" aria-label="Hide the colour switcher">&times;</button>
-</div>
-
 <script>
   document.getElementById('year').textContent = new Date().getFullYear();
-
-  /* CLIENT PREVIEW TOOL — colour-scheme switcher. Remove with its markup
-     and CSS before launch. The preset is applied to <html data-theme> and
-     every themed colour is a custom property, so this only ever writes one
-     attribute; nothing else in the page needs to know a switch happened.
-     The pre-paint script in <head> re-applies the saved choice on reload. */
-  (function(){
-    const bar = document.getElementById('themeSwitch');
-    const buttons = bar.querySelectorAll('[data-theme-btn]');
-    const meta = document.querySelector('meta[name="theme-color"]');
-    const root = document.documentElement;
-
-    function apply(name, persist){
-      root.setAttribute('data-theme', name);
-      buttons.forEach(b => b.setAttribute('aria-pressed', String(b.dataset.themeBtn === name)));
-      // Mobile browser chrome reads this, so it has to follow the preset or
-      // the address bar keeps the old colour after a switch.
-      const c = getComputedStyle(root).getPropertyValue('--meta-theme').trim();
-      if (meta && c) meta.setAttribute('content', c);
-      if (persist) { try { localStorage.setItem('be-theme', name); } catch(e){} }
-    }
-
-    let current = root.getAttribute('data-theme');
-    if (!current) { current = 'black'; }
-    apply(current, false);
-
-    buttons.forEach(b => b.addEventListener('click', () => apply(b.dataset.themeBtn, true)));
-    document.getElementById('themeSwitchClose')
-      .addEventListener('click', () => { bar.hidden = true; });
-  })();
 
   const menuToggle = document.getElementById('menuToggle');
   const navList = document.getElementById('navList');
